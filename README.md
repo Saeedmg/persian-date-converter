@@ -1,374 +1,247 @@
-================================================================
-  PERSIAN DATE CONVERTER  —  Quick Start Guide
-  Version 2.0
-  Translation Office 1324
-  Saeed Majidi  |  rassamtranslation@gmail.com
-================================================================
+# Persian Date Converter
 
-  This guide walks you through:
-    1. Unzipping the tool to C:\
-    2. Understanding the file layout
-    3. Adding the macro to Word
-    4. Binding keyboard shortcuts (F2, F3, ...)
-    5. Using the quick shortcuts
-    6. A brief overview of the batch converter
+**Convert Persian (Shamsi) dates to Gregorian in 25 formats across 8 languages — with a GUI, batch converter, and a Word macro.**
 
-  Read top to bottom. Follow the steps in order.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Platform: Windows](https://img.shields.io/badge/Platform-Windows-blue.svg)
+![Language: Python](https://img.shields.io/badge/Language-Python%203.10-blue.svg)
 
+---
 
-================================================================
-STEP 1 — UNZIP TO DRIVE C
-================================================================
+## Overview
 
-You will receive a file called one of these:
+A complete tool for translators, offices, and anyone who works with Persian dates. Pick a format once, then:
 
-    PersianDateTool.zip
-    PersianDateTool.rar
+- **Type a date in the GUI** → get the Gregorian equivalent instantly
+- **Batch-convert a folder of `.docx` files** with one click
+- **Press a keyboard shortcut inside Word** → the date pastes at the cursor
 
-Extract it so the final folder is at:
+No Python required on the target machine — the executables are self-contained.
 
-    C:\PersianDateTool\
+---
 
-  ▸ On Windows 10/11, right-click the zip → Extract All…
-  ▸ In the destination box, type:  C:\
-  ▸ Click Extract.
+## Features
 
-After extraction, the folder MUST be at:
+| Feature | Description |
+|---|---|
+| **25 date formats** | British, American, ISO, European, dot-separated, and more |
+| **8 languages** | English, French, German, Italian, Spanish, Turkish, Arabic, Russian |
+| **Live two-way conversion** | Type Persian → get Gregorian. Type Gregorian → get Persian. |
+| **Batch converter** | Convert whole folders of `.docx` files at once |
+| **Word macro** | Insert dates at the cursor with a single keystroke |
+| **Copy to clipboard** | One click to copy the converted date |
+| **Protected documents** | Works inside protected Word forms, prompts for passwords when needed |
+| **Activity log** | Every conversion timestamped in `dist\log.txt` |
+
+---
 
-    C:\PersianDateTool\
+## Download
 
-  ⚠ Do NOT put it in Downloads, Desktop, or Documents.
-    The Word macro has C:\PersianDateTool\ hard-coded.
+### Option 1 — Download the ready-to-use package (recommended)
 
-  If you must use a different path, see the note at the bottom
-  of this guide under "MOVING TO A DIFFERENT FOLDER".
+1. Go to the [Releases](../../releases) page.
+2. Download the latest `PersianDateTool_vX.X.X.zip`.
+3. Extract it so the final folder is at `C:\PersianDateTool\`.
+4. Follow `QUICK_START.txt` inside.
+
+### Option 2 — Build from source
+
+Requirements:
+
+- Windows 10/11
+- Python 3.10 (or 3.11 / 3.12)
+- Git
+
+```cmd
+git clone https://github.com/Saeedmg/persian-date-converter.git
+cd persian-date-converter
+pip install jdatetime python-docx pyinstaller
+build_cli.bat
+build_gui.bat
 
+```
+Both executables are produced in `dist\`.
+
+---
+
+## File Layout
 
-================================================================
-STEP 2 — FILE LAYOUT (WHAT YOU'LL SEE)
-================================================================
+After extraction, the folder should look like this:
 
-After unzipping, C:\PersianDateTool\ contains:
+```
+C:\PersianDateTool\
+├── dist\
+│   ├── PersianDateConverter.exe                 GUI (double-click)
+│   ├── PersianDateConverterCLI\
+│   │   └── PersianDateConverterCLI.exe          CLI (called by Word)
+│   ├── RunHidden.vbs                            hides the console window
+│   ├── settings.ini                             remembers your format
+│   └── log.txt                                  conversion history
+└── word\
+    └── ConvertPersianDate.bas                   macro to import into Word
+```
 
-    C:\PersianDateTool\
-    │
-    ├── PersianDateConverter.exe          ← Double-click to open the GUI
-    │
-    ├── dist\
-    │   ├── PersianDateConverter.exe               (GUI - same as above)
-    │   ├── PersianDateConverterCLI\               (CLI folder)
-    │   │   └── PersianDateConverterCLI.exe            (Word calls this)
-    │   ├── RunHidden.vbs                          (hides the console)
-    │   ├── settings.ini                           (remembers your format)
-    │   └── log.txt                                (conversion history)
-    │
-    └── word\
-        └── ConvertPersianDate.bas                 (macro backup)
+---
 
+## Quick Start (Word Macro)
 
-  The two files that matter for Word:
+1. Extract the tool to `C:\PersianDateTool\`.
+2. Open `dist\PersianDateConverter.exe` once, pick a format, close it.
+3. In Word, press **Alt + F11**.
+4. **File → Import File…** → select `word\ConvertPersianDate.bas`.
+5. **Ctrl + S** → click **Yes** to save to the Normal template.
+6. Bind a shortcut (**File → Options → Customize Ribbon → Keyboard shortcuts**).
 
-    C:\PersianDateTool\dist\PersianDateConverterCLI\PersianDateConverterCLI.exe
-    C:\PersianDateTool\dist\RunHidden.vbs
+Now, in any Word document:
 
-  The Word macro talks to these two files. Keep them where they are.
+```
+Press Ctrl + Shift + D   →   type 1403/06/27   →   OK
+```
 
+The converted date pastes at the cursor.
+
+---
+
+## Formats
+
+| Key | Output | Description |
+|---|---|---|
+| 1 | 17 September 2024 | English — British full |
+| 2 | 09/17/2024 | English — American slash |
+| 3 | 17-09-2024 | English — European dash |
+| 4 | 2024-09-17 | English — ISO |
+| 5 | September 17, 2024 | English — American full *(default)* |
+| 6 | 17 Sep. 2024 | English — British abbreviated |
+| 7 | Sep. 17, 2024 | English — American abbreviated |
+| 8 | 17 septembre 2024 | French |
+| 9 | 17 sept. 2024 | French abbreviated |
+| 10 | 17. September 2024 | German |
+| 11 | 17. Sep. 2024 | German abbreviated |
+| 12 | 17 settembre 2024 | Italian |
+| 13 | 17 set. 2024 | Italian abbreviated |
+| 14 | 17 de septiembre de 2024 | Spanish |
+| 15 | 17 sep. 2024 | Spanish abbreviated |
+| 16 | 17 Eylül 2024 | Turkish |
+| 17 | 17 Eyl. 2024 | Turkish abbreviated |
+| 18 | 17 سبتمبر 2024 | Arabic |
+| 19 | 17/09/2024 | Arabic numeric |
+| 20 | 17.09.2024 | Dot — day.month.year |
+| 21 | 2024.09.17 | Dot — ISO |
+| 22 | 09.17.2024 | Dot — American |
+| 23 | 17. September 2024 | Dot — day. Month year |
+| 24 | 17 сентября 2024 | Russian |
+| 25 | 17 сен. 2024 | Russian abbreviated |
 
-================================================================
-STEP 3 — ADD THE MACRO TO WORD
-================================================================
+---
 
-  1) Open Microsoft Word.
+## Keyboard Shortcuts (Word)
 
-  2) Press Alt + F11 on your keyboard.
-     The VBA editor opens in a new window.
+After binding in Word's Customize dialog:
 
-  3) In the left panel, look for "Normal" → "Modules".
-     If a module called ConvertPersianDate already exists,
-     right-click it and choose  Remove  →  No.
+| Shortcut | Macro | Output |
+|---|---|---|
+| Ctrl+Shift+D | `ConvertPersianDate` | Uses the format set in the GUI |
+| Alt+F8 | `ConvertPersianDate_Full` | September 17, 2024 |
+| Alt+F9 | `ConvertPersianDate_Abbrev` | Sep. 17, 2024 |
+| Alt+F10 | `ConvertPersianDate_British` | 17 September 2024 |
+| Ctrl+Alt+1 | `ConvertPersianDate_BritishAbbrev` | 17 Sep. 2024 |
+| Ctrl+Alt+2 | `ConvertPersianDate_ISO` | 2024-09-17 |
+| Ctrl+Alt+3 | `ConvertPersianDate_DotISO` | 2024.09.17 |
+| Ctrl+Alt+4 | `ConvertPersianDate_SlashUS` | 09/17/2024 |
 
-  4) Menu:  File  →  Import File…
+---
 
-  5) Navigate to:
-        C:\PersianDateTool\word\ConvertPersianDate.bas
-     Click Open.
+## Batch Converter
 
-  6) Press Ctrl + S.
-     A dialog asks: "Save changes to the Normal template?"
-     Click YES.
+Convert whole folders of Word files with one click:
 
-  7) Press Alt + Q to return to Word.
+1. Open `dist\PersianDateConverter.exe`.
+2. Click the **Word Files (Batch)** tab.
+3. Pick an **input folder** (contains your `.docx` files).
+4. Pick an **output folder** (where results are saved).
+5. Pick a **format** from the dropdown.
+6. Click **Convert Word Files**.
 
-  Done. The macro is now part of Word.
-  You only do this ONCE.
+Each input file produces an output file named `OriginalName_updated.docx`. Originals are untouched.
 
+Works on paragraphs, tables, headers, and footers.
 
-================================================================
-STEP 4 — BIND KEYBOARD SHORTCUTS (F2, F3, ...)
-================================================================
+---
 
-Choose one or more shortcuts for the macros you'll use most.
-I recommend:
+## Protected Documents
 
-    F2       →  ConvertPersianDate            (uses GUI format)
-    F3       →  ConvertPersianDate_Full       (September 17, 2024)
-    F4       →  ConvertPersianDate_Abbrev     (Sep. 17, 2024)
-    F6       →  ConvertPersianDate_ISO        (2024-09-17)
+The macro handles three cases automatically:
 
-  F2, F3, F4, F6 are free in a default Word install (F5 is
-  "Go To" and F7 is spell-check, so avoid those).
+- **Unprotected document** — inserts normally.
+- **Form-protected document** — fills the form field directly.
+- **Password-protected document** — asks for the password once.
 
-  To bind them:
+No manual unprotecting needed.
 
-  1) In Word:  File  →  Options  →  Customize Ribbon.
+---
 
-  2) At the bottom, click  "Keyboard shortcuts: Customize…"
-     A new dialog opens.
+## Building from Source
 
-  3) In the left list "Categories", scroll to the bottom
-     and select  Macros.
+Both executables are built with PyInstaller:
 
-  4) In the right list "Macros", click  ConvertPersianDate.
+```cmd
+build_cli.bat    →  dist\PersianDateConverterCLI\PersianDateConverterCLI.exe
+build_gui.bat    →  dist\PersianDateConverter.exe
+```
 
-  5) Click inside  "Press new shortcut key".
-     Press  F2  on your keyboard.
+Key build flags:
 
-  6) Click  Assign.
+| Flag | Purpose |
+|---|---|
+| `--onedir` | CLI: fast startup (no unpacking on each run) |
+| `--noconsole` | CLI: no console window when Word calls it |
+| `--onefile` | GUI: single-file distribution |
+| `--windowed` | GUI: no console |
+| `--icon` | Custom icon for both exes |
+| `--version-file` | File-properties metadata |
+| `--hidden-import=jdatetime` | Ensures jdatetime is bundled |
+| `--collect-all=jdatetime` | Bundles jdatetime's internal data |
 
-  7) Repeat steps 4–6 for the other macros:
-        ConvertPersianDate_Full     →  F3
-        ConvertPersianDate_Abbrev   →  F4
-        ConvertPersianDate_ISO      →  F6
+**Never run `pyinstaller` directly** — always use `python -m PyInstaller` to guarantee the right interpreter.
 
-  8) Click Close.
+---
 
-  If a key says "Currently assigned to", you can still assign
-  it — Word will overwrite the old binding. Or pick another key.
+## Documentation
 
+- **`QUICK_START.txt`** — one-page English install guide
+- **`Persian Guide.txt`** — Persian install guide
+- **`Installation Guide_Persian.docx` / `.pdf`** — fully formatted guide
 
-================================================================
-STEP 5 — USING THE QUICK SHORTCUTS
-================================================================
+---
 
-In any Word document:
+## Compatibility
 
-    Press  F2   (or your chosen key)
-    Type the Persian date:   1403/06/27
-    Click  OK
+| Component | Supported |
+|---|---|
+| Operating System | Windows 10, Windows 11 |
+| Microsoft Word | 2016, 2019, 2021, Microsoft 365 |
+| Python (build only) | 3.10, 3.11, 3.12 |
 
-    The converted date pastes at the cursor.
+---
 
-  That's it. No black window, no dialog after the input box.
+## Contributing
 
+Suggestions and improvements are welcome. Open an [issue](../../issues) or submit a pull request.
 
-  WHICH SHORTCUT TO USE
-  ---------------------
+---
 
-    F2  (ConvertPersianDate)
-         Uses whatever format is currently set in the GUI.
-         Best for general work — change the format in the
-         GUI, and F2 follows automatically.
+## License
 
-    F3  (ConvertPersianDate_Full)
-         Always:  September 17, 2024
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
-    F4  (ConvertPersianDate_Abbrev)
-         Always:  Sep. 17, 2024
+---
 
-    F6  (ConvertPersianDate_ISO)
-         Always:  2024-09-17
+## Contact
 
-  You can bind more formats to other keys if you want.
-  There are 7 pre-defined macros, each with its own format:
+**Saeed Majidi** — Translation Office 1324
+📧 rassamtranslation@gmail.com
 
-    ConvertPersianDate                 (GUI format)
-    ConvertPersianDate_Full            (Sept 17, 2024)
-    ConvertPersianDate_Abbrev          (Sep. 17, 2024)
-    ConvertPersianDate_British         (17 September 2024)
-    ConvertPersianDate_BritishAbbrev   (17 Sep. 2024)
-    ConvertPersianDate_ISO             (2024-09-17)
-    ConvertPersianDate_DotISO          (2024.09.17)
-    ConvertPersianDate_SlashUS         (09/17/2024)
+---
 
+*Built with Python, `jdatetime`, `python-docx`, and PyInstaller.*
 
-  INPUT FORMAT
-  ------------
-  Always type the Persian date as:
-
-        YYYY/MM/DD
-
-  Examples:
-        1403/06/27
-        1364/01/20
-        1403/1/1       (leading zeros are optional)
-
-  Use the English keyboard. Forward slashes only.
-
-
-  WORKS WITH PROTECTED DOCUMENTS
-  ------------------------------
-  If the document has form fields (like an application form),
-  the macro fills the field directly. If the document is
-  password-protected, you'll be asked for the password once.
-
-
-================================================================
-STEP 6 — THE BATCH CONVERTER (BRIEF OVERVIEW)
-================================================================
-
-The GUI includes a batch feature that converts whole folders
-of Word files at once. Useful when you have 50 documents and
-don't want to press F2 for each one.
-
-  HOW TO USE
-
-  1) Double-click:
-        C:\PersianDateTool\dist\PersianDateConverter.exe
-
-  2) Click the  "Word Files (Batch)"  tab.
-
-  3) In "Input folder", choose the folder containing your
-     .docx files. (Click Browse…)
-
-  4) In "Output folder", choose where the converted files
-     should go. (New folder recommended.)
-
-  5) From the "Format" dropdown, pick a date format.
-
-  6) Click  "Convert Word Files".
-
-  7) Wait. A progress log appears at the bottom of the tab.
-
-  WHAT IT DOES
-  ------------
-  It scans every .docx in the input folder, finds every date
-  written as  YYYY/MM/DD, converts each one, and saves a new
-  file called:
-
-        OriginalName_updated.docx
-
-  in the output folder. The originals are untouched.
-
-  It works on:
-    ✔ Paragraphs
-    ✔ Tables
-    ✔ Headers and footers
-
-  It does NOT:
-    ✘ Change the original files
-    ✘ Touch .doc files (only .docx)
-    ✘ Convert dates written in other formats (only YYYY/MM/DD)
-
-
-================================================================
-GUI QUICK REFERENCE
-================================================================
-
-Open the GUI:
-
-    C:\PersianDateTool\dist\PersianDateConverter.exe
-
-  Tabs:
-
-    Single Date          — Type one date, get the English result,
-                           Copy to Clipboard button.
-
-    Word Files (Batch)   — Convert whole folders of .docx files.
-
-    Word Macro           — Shows the macro code and copies it
-                           to the clipboard (useful when setting
-                           up Word on a new PC).
-
-    Log                  — Shows every conversion performed,
-                           with a timestamp.
-
-    About                — Version and contact info.
-
-  To change the DEFAULT format that the F2 shortcut uses:
-    1. Open the GUI.
-    2. Single Date tab.
-    3. Click a format radio button.
-    4. Close the GUI.
-  Next time you press F2, the new format is used.
-
-
-================================================================
-WHEN YOU GET A NEW PC
-================================================================
-
-  1) Copy the whole  C:\PersianDateTool\  folder to the new PC
-     at the same path.
-
-  2) Add the macro to Word (Step 3 in this guide).
-
-  3) Bind the shortcuts (Step 4).
-
-  That's it. No Python needed.
-
-
-================================================================
-MOVING TO A DIFFERENT FOLDER
-================================================================
-
-If you must install somewhere other than C:\PersianDateTool\:
-
-  1) Put the folder wherever you want, e.g. D:\Tools\PersianDateTool\
-
-  2) In Word:  Alt + F11  →  click ConvertPersianDate  →  find:
-
-        exePath = "C:\PersianDateTool\dist\PersianDateConverterCLI\PersianDateConverterCLI.exe"
-        vbsPath = "C:\PersianDateTool\dist\RunHidden.vbs"
-
-  3) Change them to your actual location.
-
-  4) Ctrl + S → Yes.
-
-  Do NOT move files individually. Always move the whole folder.
-
-
-================================================================
-TROUBLESHOOTING
-================================================================
-
-  Problem: "Nothing pastes, no error"
-  Fix:     Confirm these two files exist:
-             C:\PersianDateTool\dist\PersianDateConverterCLI\PersianDateConverterCLI.exe
-             C:\PersianDateTool\dist\RunHidden.vbs
-
-  Problem: "Error: Please enter a valid Persian date"
-  Fix:     Use YYYY/MM/DD. English digits. Forward slashes.
-
-  Problem: "A black window flashes"
-  Fix:     The macro is the old version. Re-import
-           ConvertPersianDate.bas (Step 3).
-
-  Problem: "Arabic shows as ????? or boxes"
-  Fix:     The macro is the old version. Re-import
-           ConvertPersianDate.bas.
-
-  Problem: "Shortcut does nothing"
-  Fix:     The macro isn't saved to the Normal template.
-           Alt + F11 → Ctrl + S → Yes.
-
-  Problem: "The document is protected with a password"
-  Fix:     The macro asks for the password once. Enter it, or
-           unprotect the file manually (Review → Restrict Editing
-           → Stop Protection) and save.
-
-  Problem: "Macro is gone after restarting Word"
-  Fix:     Always click YES when Word asks to save changes
-           to the Normal template.
-
-
-================================================================
-CONTACT
-================================================================
-
-  Developed by:  Saeed Majidi
-  Company:       Translation Office 1324
-  Email:         rassamtranslation@gmail.com
-  Version:       2.0
-
-================================================================
-  End of Quick Start Guide
-================================================================
