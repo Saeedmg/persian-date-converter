@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.spec
+build/
+
+# PyInstaller output
+dist/PersianDateConverter.exe
+dist/PersianDateConverterCLI/
+
+# User data
+settings.ini
+log.txt
+*.log
+
+# Test output
+dist/UP_DATED/
+dist/*_updated.docx
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# Windows
+Thumbs.db
+Desktop.ini

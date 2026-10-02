@@ -1,0 +1,3 @@
+jdatetime
+python-docx
+pyinstaller
